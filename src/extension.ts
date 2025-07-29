@@ -3,6 +3,7 @@
 import * as vscode from 'vscode';
 import path from 'path';
 import os from 'os';
+import * as fs from 'fs/promises';
 
 // Supported file types for scratch files
 const supportedFileTypes = [
@@ -41,9 +42,10 @@ async function getNextScratchFilename(context: vscode.ExtensionContext, extensio
   scratchCounter = context.globalState.get<number>('scratchCounter') || 0;
   scratchCounter++;
   await context.globalState.update('scratchCounter', scratchCounter);
-
+  const scratchDir = path.join(os.homedir(), 'scratches');
+  await fs.mkdir(scratchDir, { recursive: true });
   const filename = `scratch_${scratchCounter}${extension}`;
-  const tempFilePath = path.join(os.tmpdir(), filename);
+  const tempFilePath = path.join(scratchDir, filename);
   return vscode.Uri.file(tempFilePath);
 }
 
