@@ -12,10 +12,11 @@
 
 ## Usage
 
-1. Open the command palette (⇧⌘P or Ctrl+Shift+P)
-2. Run `Scratchy: Create Scratch File`
-3. Select a language
-4. A new untitled file will open with the appropriate extension and language mode
+1. Use the keyboard shortcut **Ctrl+Cmd+N** (or open the command palette with ⇧⌘P or Ctrl+Shift+P and run `Scratchy: Create Scratch File`)
+2. Select a language
+3. A new untitled file will open with the appropriate extension and language mode
+
+![Scratchy Demo](media/scratchy.gif)
 
 ## Extension Settings
 
