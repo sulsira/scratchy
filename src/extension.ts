@@ -1,36 +1,36 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
-import * as vscode from 'vscode';
-import path from 'path';
-import os from 'os';
-import * as fs from 'fs/promises';
+import * as vscode from "vscode";
+import path from "path";
+import os from "os";
+import * as fs from "fs/promises";
 
 // Supported file types for scratch files
 const supportedFileTypes = [
   {
-    label: 'JavaScript',
-    description: 'JavaScript files',
-    fileExtensions: ['.js', '.jsx'],
+    label: "JavaScript",
+    description: "JavaScript files",
+    fileExtensions: [".js", ".jsx"],
   },
   {
-    label: 'TypeScript',
-    description: 'TypeScript files',
-    fileExtensions: ['.ts', '.tsx'],
+    label: "TypeScript",
+    description: "TypeScript files",
+    fileExtensions: [".ts", ".tsx"],
   },
   {
-    label: 'Python',
-    description: 'Python files',
-    fileExtensions: ['.py'],
+    label: "Python",
+    description: "Python files",
+    fileExtensions: [".py"],
   },
   {
-    label: 'Markdown',
-    description: 'Markdown files',
-    fileExtensions: ['.md'],
+    label: "Markdown",
+    description: "Markdown files",
+    fileExtensions: [".md"],
   },
   {
-    label: 'JSON',
-    description: 'JSON files',
-    fileExtensions: ['.json'],
+    label: "JSON",
+    description: "JSON files",
+    fileExtensions: [".json"],
   },
 ];
 
@@ -42,10 +42,10 @@ async function getNextScratchFilename(
   context: vscode.ExtensionContext,
   extension: string,
 ): Promise<vscode.Uri> {
-  scratchCounter = context.globalState.get<number>('scratchCounter') || 0;
+  scratchCounter = context.globalState.get<number>("scratchCounter") || 0;
   scratchCounter++;
-  await context.globalState.update('scratchCounter', scratchCounter);
-  const scratchDir = path.join(os.homedir(), 'scratches');
+  await context.globalState.update("scratchCounter", scratchCounter);
+  const scratchDir = path.join(os.homedir(), "scratches");
   await fs.mkdir(scratchDir, { recursive: true });
   const filename = `scratch_${scratchCounter}${extension}`;
   const tempFilePath = path.join(scratchDir, filename);
@@ -55,11 +55,11 @@ async function getNextScratchFilename(
 // This method is called when your extension is activated
 export function activate(context: vscode.ExtensionContext) {
   // Register the command to show the scratch file modal
-  const disposable = vscode.commands.registerCommand('scratchy.show', async () => {
+  const disposable = vscode.commands.registerCommand("scratchy.show", async () => {
     // Show the list of supported file types
     const fileTypes = supportedFileTypes.map((f) => f.label);
     const selectedType = await vscode.window.showQuickPick(fileTypes, {
-      placeHolder: 'Select a file type',
+      placeHolder: "Select a file type",
     });
 
     if (!selectedType) {
@@ -75,20 +75,20 @@ export function activate(context: vscode.ExtensionContext) {
 
     // Create a unique scratch file using a persistent counter
     const tempFile = await getNextScratchFilename(context, fileExtension);
-    await vscode.workspace.fs.writeFile(tempFile, Buffer.from(''));
+    await vscode.workspace.fs.writeFile(tempFile, Buffer.from(""));
 
     const doc = await vscode.workspace.openTextDocument(tempFile);
 
     // Set language based on file extension
     const ext = path.extname(tempFile.fsPath);
     const langIdMap: Record<string, string> = {
-      '.js': 'javascript',
-      '.jsx': 'javascript',
-      '.ts': 'typescript',
-      '.tsx': 'typescriptreact',
-      '.py': 'python',
-      '.md': 'markdown',
-      '.json': 'json',
+      ".js": "javascript",
+      ".jsx": "javascript",
+      ".ts": "typescript",
+      ".tsx": "typescriptreact",
+      ".py": "python",
+      ".md": "markdown",
+      ".json": "json",
     };
     const langId = langIdMap[ext];
     if (langId) {
