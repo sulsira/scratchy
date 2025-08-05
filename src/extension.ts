@@ -10,35 +10,38 @@ const supportedFileTypes = [
   {
     label: 'JavaScript',
     description: 'JavaScript files',
-    fileExtensions: ['.js', '.jsx']
+    fileExtensions: ['.js', '.jsx'],
   },
   {
     label: 'TypeScript',
     description: 'TypeScript files',
-    fileExtensions: ['.ts', '.tsx']
+    fileExtensions: ['.ts', '.tsx'],
   },
   {
     label: 'Python',
     description: 'Python files',
-    fileExtensions: ['.py']
+    fileExtensions: ['.py'],
   },
   {
     label: 'Markdown',
     description: 'Markdown files',
-    fileExtensions: ['.md']
+    fileExtensions: ['.md'],
   },
   {
     label: 'JSON',
     description: 'JSON files',
-    fileExtensions: ['.json']
-  }
+    fileExtensions: ['.json'],
+  },
 ];
 
 // Persistent scratch file counter
 let scratchCounter = 0;
 
 // Generate a unique scratch file URI
-async function getNextScratchFilename(context: vscode.ExtensionContext, extension: string): Promise<vscode.Uri> {
+async function getNextScratchFilename(
+  context: vscode.ExtensionContext,
+  extension: string,
+): Promise<vscode.Uri> {
   scratchCounter = context.globalState.get<number>('scratchCounter') || 0;
   scratchCounter++;
   await context.globalState.update('scratchCounter', scratchCounter);
@@ -54,9 +57,9 @@ export function activate(context: vscode.ExtensionContext) {
   // Register the command to show the scratch file modal
   const disposable = vscode.commands.registerCommand('scratchy.show', async () => {
     // Show the list of supported file types
-    const fileTypes = supportedFileTypes.map(f => f.label);
+    const fileTypes = supportedFileTypes.map((f) => f.label);
     const selectedType = await vscode.window.showQuickPick(fileTypes, {
-      placeHolder: 'Select a file type'
+      placeHolder: 'Select a file type',
     });
 
     if (!selectedType) {
@@ -64,7 +67,8 @@ export function activate(context: vscode.ExtensionContext) {
     }
 
     // Get the file extension for the selected type
-    const fileExtension = supportedFileTypes.find(f => f.label === selectedType)?.fileExtensions[0];
+    const fileExtension = supportedFileTypes.find((f) => f.label === selectedType)
+      ?.fileExtensions[0];
     if (!fileExtension) {
       return;
     }
@@ -84,7 +88,7 @@ export function activate(context: vscode.ExtensionContext) {
       '.tsx': 'typescriptreact',
       '.py': 'python',
       '.md': 'markdown',
-      '.json': 'json'
+      '.json': 'json',
     };
     const langId = langIdMap[ext];
     if (langId) {

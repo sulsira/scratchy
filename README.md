@@ -28,8 +28,79 @@ None.
 
 ## Development
 
-- Run `npm install`
-- Use `F5` to launch a development instance of VS Code
+### Prerequisites
+
+- Node.js (version 18 or higher)
+- npm or yarn
+- VS Code (for development)
+
+### Setup
+
+1. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+2. Launch development instance:
+   - Press `F5` in VS Code to launch a new Extension Development Host window
+   - Use `Ctrl+Cmd+N` (or `Ctrl+Alt+N` on Windows/Linux) to test the extension
+
+### Code Quality
+
+This project uses ESLint and Prettier for code quality and formatting:
+
+#### Linting
+
+```bash
+# Check for linting issues
+npm run lint
+
+# Fix auto-fixable linting issues
+npm run lint:fix
+```
+
+#### Formatting
+
+```bash
+# Format all code files
+npm run format
+
+# Check if files are properly formatted
+npm run format:check
+```
+
+#### Type Checking
+
+```bash
+# Check TypeScript types
+npm run check-types
+```
+
+#### All Quality Checks
+
+```bash
+# Run all quality checks (linting, formatting, type checking)
+npm run compile
+```
+
+### VS Code Integration
+
+The project includes VS Code settings for automatic formatting and linting:
+
+- Format on save is enabled
+- ESLint auto-fix on save is enabled
+- Prettier is set as the default formatter
+- Recommended extensions are configured
+
+### Code Style
+
+- **Indentation**: 2 spaces
+- **Quotes**: Double quotes
+- **Semicolons**: Required
+- **Trailing commas**: Required in multiline
+- **Line length**: 80 characters
+- **File encoding**: UTF-8 with LF line endings
 
 ## Testing
 

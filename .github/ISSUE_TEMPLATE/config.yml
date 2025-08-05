@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: GitHub Discussions
+    url: https://github.com/sulsira/scratchy/discussions
+    about: Please ask and answer questions here.
+  - name: VS Code Extension Marketplace
+    url: https://marketplace.visualstudio.com/items?itemName=sulsira.scratchy
+    about: View Scratchy on the VS Code Marketplace. 

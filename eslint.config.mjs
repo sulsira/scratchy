@@ -1,28 +1,188 @@
 import typescriptEslint from "@typescript-eslint/eslint-plugin";
 import tsParser from "@typescript-eslint/parser";
 
-export default [{
-    files: ["**/*.ts"],
-}, {
+export default [
+  {
+    files: ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx", "**/*.mjs"],
     plugins: {
-        "@typescript-eslint": typescriptEslint,
+      "@typescript-eslint": typescriptEslint,
     },
-
     languageOptions: {
-        parser: tsParser,
-        ecmaVersion: 2022,
-        sourceType: "module",
+      parser: tsParser,
+      ecmaVersion: 2022,
+      sourceType: "module",
+      globals: {
+        console: "readonly",
+        process: "readonly",
+        Buffer: "readonly",
+        __dirname: "readonly",
+        __filename: "readonly",
+        global: "readonly",
+        module: "readonly",
+        require: "readonly",
+        exports: "readonly",
+      },
     },
-
     rules: {
-        "@typescript-eslint/naming-convention": ["warn", {
-            selector: "import",
-            format: ["camelCase", "PascalCase"],
-        }],
+      // TypeScript specific rules
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        {
+          argsIgnorePattern: "^_",
+          varsIgnorePattern: "^_",
+          caughtErrorsIgnorePattern: "^_",
+        },
+      ],
+      "@typescript-eslint/no-explicit-any": "warn",
+      "@typescript-eslint/explicit-function-return-type": "off",
+      "@typescript-eslint/explicit-module-boundary-types": "off",
+      "@typescript-eslint/no-inferrable-types": "error",
+      "@typescript-eslint/no-var-requires": "error",
+      "@typescript-eslint/naming-convention": [
+        "error",
+        {
+          selector: "default",
+          format: ["camelCase"],
+          leadingUnderscore: "forbid",
+          trailingUnderscore: "forbid",
+        },
+        {
+          selector: "variable",
+          format: ["camelCase", "UPPER_CASE"],
+          leadingUnderscore: "allow",
+        },
+        {
+          selector: "parameter",
+          format: ["camelCase"],
+          leadingUnderscore: "allow",
+        },
+        {
+          selector: "memberLike",
+          modifiers: ["private"],
+          format: ["camelCase"],
+          leadingUnderscore: "require",
+        },
+        {
+          selector: "typeLike",
+          format: ["PascalCase"],
+        },
+        {
+          selector: "enumMember",
+          format: ["UPPER_CASE", "PascalCase"],
+        },
+        {
+          selector: "objectLiteralProperty",
+          format: null,
+          custom: {
+            regex: "^[a-zA-Z_$][a-zA-Z0-9_$]*$|^\\.[a-zA-Z]+$",
+            match: true,
+          },
+        },
+      ],
 
-        curly: "warn",
-        eqeqeq: "warn",
-        "no-throw-literal": "warn",
-        semi: "warn",
+      // General JavaScript/TypeScript rules
+      curly: ["error", "all"],
+      eqeqeq: ["error", "always"],
+      "no-throw-literal": "error",
+      semi: ["error", "always"],
+      quotes: ["error", "double"],
+      indent: ["error", 2],
+      "comma-dangle": ["error", "always-multiline"],
+      "no-console": "warn",
+      "no-debugger": "error",
+      "no-alert": "error",
+      "no-eval": "error",
+      "no-implied-eval": "error",
+      "no-new-func": "error",
+      "no-script-url": "error",
+      "prefer-const": "error",
+      "no-var": "error",
+      "object-shorthand": "error",
+      "prefer-template": "error",
+      "template-curly-spacing": ["error", "never"],
+      "arrow-spacing": "error",
+      "no-duplicate-imports": "error",
+      "no-useless-rename": "error",
+      "prefer-destructuring": [
+        "error",
+        {
+          array: true,
+          object: true,
+        },
+      ],
+      "no-unused-expressions": "error",
+      "no-unreachable": "error",
+      "no-constant-condition": "error",
+      "no-dupe-keys": "error",
+      "no-dupe-args": "error",
+      "no-dupe-class-members": "error",
+      "no-dupe-else-if": "error",
+      "no-duplicate-case": "error",
+      "no-empty": "error",
+      "no-extra-boolean-cast": "error",
+      "no-extra-semi": "error",
+      "no-irregular-whitespace": "error",
+      "no-multiple-empty-lines": ["error", { max: 2 }],
+      "no-trailing-spaces": "error",
+      "eol-last": "error",
+      "no-mixed-spaces-and-tabs": "error",
+      "space-before-blocks": "error",
+      "space-before-function-paren": [
+        "error",
+        {
+          anonymous: "always",
+          named: "never",
+          asyncArrow: "always",
+        },
+      ],
+      "space-in-parens": ["error", "never"],
+      "space-infix-ops": "error",
+      "space-unary-ops": "error",
+      "spaced-comment": ["error", "always"],
+      "keyword-spacing": "error",
+      "object-curly-spacing": ["error", "always"],
+      "array-bracket-spacing": ["error", "never"],
+      "comma-spacing": ["error", { before: false, after: true }],
+      "key-spacing": ["error", { beforeColon: false, afterColon: true }],
+      "func-call-spacing": ["error", "never"],
+      "block-spacing": "error",
+      "brace-style": ["error", "1tbs", { allowSingleLine: true }],
+      camelcase: "off", // Using TypeScript naming convention instead
+      "new-cap": "error",
+      "new-parens": "error",
+      "no-array-constructor": "error",
+      "no-new-object": "error",
+      "no-new-wrappers": "error",
+      "no-return-assign": "error",
+      "no-self-compare": "error",
+      "no-sequences": "error",
+      "no-throw-literal": "error",
+      "no-unmodified-loop-condition": "error",
+      "no-useless-call": "error",
+      "no-useless-concat": "error",
+      "no-useless-return": "error",
+      radix: "error",
+      yoda: "error",
     },
-}];
+  },
+  {
+    files: [
+      "**/*.test.ts",
+      "**/*.spec.ts",
+      "**/test/**/*.ts",
+      "**/test/**/*.js",
+    ],
+    rules: {
+      "@typescript-eslint/no-explicit-any": "off",
+      "no-console": "off",
+      "@typescript-eslint/naming-convention": "off",
+    },
+  },
+  {
+    files: ["**/*.config.js", "**/*.config.mjs", "esbuild.js"],
+    rules: {
+      "@typescript-eslint/no-var-requires": "off",
+      "no-console": "off",
+    },
+  },
+];

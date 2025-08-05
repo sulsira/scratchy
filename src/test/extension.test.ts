@@ -1,6 +1,4 @@
 import * as vscode from 'vscode';
-import path from 'path';
-import os from 'os';
 import { activate } from '../extension';
 
 jest.mock('vscode');
