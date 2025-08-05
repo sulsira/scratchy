@@ -2,7 +2,7 @@
   "name": "scratchy",
   "displayName": "Scratchy",
   "description": "Scratchy helps you quickly create and manage scratch files",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "publisher": "sulsira",
   "icon": "media/scratchy.png",
 "categories": ["Other", "Snippets"],
