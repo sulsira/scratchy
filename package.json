@@ -48,8 +48,7 @@
         "key": "cmd+ctrl+n",
         "mac": "cmd+ctrl+n",
         "win": "ctrl+alt+n",
-        "linux": "ctrl+alt+n",
-        "when": "editorTextFocus"
+        "linux": "ctrl+alt+n"
       }
     ],
     "commands": [
