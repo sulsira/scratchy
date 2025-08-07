@@ -13,4 +13,5 @@ vsc-extension-quickstart.md
 **/*.ts
 **/.vscode-test.*
 .env
-README.md
+.idea/
+.aws/
