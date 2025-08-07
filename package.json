@@ -49,12 +49,24 @@
         "mac": "cmd+ctrl+n",
         "win": "ctrl+alt+n",
         "linux": "ctrl+alt+n"
+      },
+      {
+        "command": "scratchy.showMarkdownPreview",
+        "key": "cmd+shift+v",
+        "mac": "cmd+shift+v",
+        "win": "ctrl+shift+v",
+        "linux": "ctrl+shift+v",
+        "when": "editorTextFocus && editorLangId == markdown"
       }
     ],
     "commands": [
       {
         "command": "scratchy.show",
         "title": "Scratchy: Create Scratch File"
+      },
+      {
+        "command": "scratchy.showMarkdownPreview",
+        "title": "Scratchy: Show Markdown Preview"
       }
     ]
   },
