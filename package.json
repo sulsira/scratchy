@@ -2,7 +2,7 @@
   "name": "scratchy",
   "displayName": "Scratchy",
   "description": "Scratchy helps you quickly create and manage scratch files",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "publisher": "sulsira",
   "icon": "media/scratchy.png",
   "homepage": "https://github.com/sulsira/scratchy#readme",
@@ -60,10 +60,10 @@
       },
       {
         "command": "scratchy.showJavaScriptPreview",
-        "key": "cmd+shift+j",
-        "mac": "cmd+shift+j",
-        "win": "ctrl+shift+j",
-        "linux": "ctrl+shift+j",
+        "key": "cmd+ctrl+j",
+        "mac": "cmd+ctrl+j",
+        "win": "cmd+ctrl+j",
+        "linux": "cmd+ctrl+j",
         "when": "editorTextFocus && editorLangId == javascript"
       }
     ],

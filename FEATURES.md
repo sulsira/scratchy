@@ -1,21 +1,24 @@
-
 ## ✅ **Markdown Preview Features Added**
 
 ### **1. Auto-Preview for Markdown Scratch Files**
+
 - When a markdown scratch file is created using `cmd+ctrl+n`, the preview automatically opens to the side
 - This provides immediate visual feedback for the markdown content
 
 ### **2. Manual Markdown Preview Command**
+
 - Added `scratchy.showMarkdownPreview` command
 - Available in the command palette as "Scratchy: Show Markdown Preview"
 - Only works when a markdown file is active
 
 ### **3. Keyboard Shortcut**
+
 - **Mac**: `cmd+shift+v`
 - **Windows/Linux**: `ctrl+shift+v`
 - Only active when a markdown file is focused (`when: "editorTextFocus && editorLangId == markdown"`)
 
 ### **4. Smart Validation**
+
 - Checks if there's an active editor
 - Validates that the active file is actually a markdown file
 - Shows helpful error messages if conditions aren't met
@@ -41,33 +44,37 @@
 - **🛡️ Safe**: Only works with actual markdown files
 - **🔄 Real-time**: Preview updates as you edit the markdown
 
-----
-
+---
 
 ## ✅ **JavaScript Preview Features Added**
 
 ### **�� Auto-Execution**
+
 - JavaScript scratch files automatically execute when created
 - Similar to how markdown files auto-open preview
 
 ### **⌨️ Manual Execution**
+
 - **Mac**: `Cmd + Shift + J` (when JavaScript file is active)
 - **Windows/Linux**: `Ctrl + Shift + J` (when JavaScript file is active)
 - Command Palette: "Scratchy: Show JavaScript Preview"
 
 ### **📊 Output Panel**
+
 - Creates a dedicated "JavaScript Preview" output channel
 - Shows execution results in real-time
 - Displays both stdout and stderr output
 - Includes execution status and timing
 
 ### **��️ Error Handling**
+
 - Proper error handling for execution failures
 - Type-safe error handling with TypeScript
 - Clear error messages and stack traces
 - Graceful handling of Node.js execution errors
 
 ### **🔧 Technical Implementation**
+
 - Uses Node.js `child_process.exec` for file execution
 - Promisified execution for async/await support
 - Proper TypeScript types and error handling
@@ -79,7 +86,7 @@
    - Use `cmd+ctrl+n` → Select "JavaScript" → File executes automatically
 
 2. **Manual Execution for Existing Files**:
-   - Open any JavaScript file → Use `cmd+shift+j` to execute
+   - Open any JavaScript file → Use `cmd+ctrl+j` to execute
    - Or use Command Palette → "Scratchy: Show JavaScript Preview"
 
 3. **Output Display**:
