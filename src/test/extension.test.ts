@@ -1,7 +1,7 @@
-import * as vscode from "vscode";
-import { activate } from "../extension";
+import * as vscode from 'vscode';
+import { activate } from '../extension';
 
-jest.mock("vscode");
+jest.mock('vscode');
 
 // Helper to simulate extension context
 function createMockContext(): any {
@@ -14,7 +14,7 @@ function createMockContext(): any {
   };
 }
 
-describe("VS Code Extension", () => {
+describe('VS Code Extension', () => {
   let context: any;
 
   beforeEach(() => {
@@ -22,28 +22,32 @@ describe("VS Code Extension", () => {
     jest.clearAllMocks();
   });
 
-  test("It should install the plugin correctly (activate without error)", () => {
+  test('It should install the plugin correctly (activate without error)', () => {
     expect(() => activate(context)).not.toThrow();
   });
 
-  test("It should create scratch files correctly", async () => {
+  test('It should create scratch files correctly', async () => {
     // Simulate command registration and execution
     const commands: Record<string, Function> = {};
-    (vscode.commands.registerCommand as jest.Mock).mockImplementation((cmd, cb) => {
-      commands[cmd] = cb;
-      return { dispose: jest.fn() };
-    });
+    (vscode.commands.registerCommand as jest.Mock).mockImplementation(
+      (cmd, cb) => {
+        commands[cmd] = cb;
+        return { dispose: jest.fn() };
+      },
+    );
 
     activate(context);
 
     // Simulate QuickPick selection for a supported type
-    (vscode.window.showQuickPick as jest.Mock).mockResolvedValue("JavaScript");
+    (vscode.window.showQuickPick as jest.Mock).mockResolvedValue('JavaScript');
     (vscode.workspace.fs.writeFile as jest.Mock).mockResolvedValue(undefined);
     (vscode.workspace.openTextDocument as jest.Mock).mockResolvedValue({});
     (vscode.window.showTextDocument as jest.Mock).mockResolvedValue(undefined);
-    (vscode.languages.setTextDocumentLanguage as jest.Mock).mockResolvedValue(undefined);
+    (vscode.languages.setTextDocumentLanguage as jest.Mock).mockResolvedValue(
+      undefined,
+    );
 
-    await commands["scratchy.show"]();
+    await commands['scratchy.show']();
 
     expect(vscode.window.showQuickPick).toHaveBeenCalled();
     expect(vscode.workspace.fs.writeFile).toHaveBeenCalled();
@@ -51,19 +55,23 @@ describe("VS Code Extension", () => {
     expect(vscode.window.showTextDocument).toHaveBeenCalled();
   });
 
-  test("It should not create scratch files for unsupported extensions", async () => {
+  test('It should not create scratch files for unsupported extensions', async () => {
     const commands: Record<string, Function> = {};
-    (vscode.commands.registerCommand as jest.Mock).mockImplementation((cmd, cb) => {
-      commands[cmd] = cb;
-      return { dispose: jest.fn() };
-    });
+    (vscode.commands.registerCommand as jest.Mock).mockImplementation(
+      (cmd, cb) => {
+        commands[cmd] = cb;
+        return { dispose: jest.fn() };
+      },
+    );
 
     activate(context);
 
     // Simulate QuickPick selection for an unsupported type
-    (vscode.window.showQuickPick as jest.Mock).mockResolvedValue("UnsupportedType");
+    (vscode.window.showQuickPick as jest.Mock).mockResolvedValue(
+      'UnsupportedType',
+    );
 
-    await commands["scratchy.show"]();
+    await commands['scratchy.show']();
 
     expect(vscode.workspace.fs.writeFile).not.toHaveBeenCalled();
     expect(vscode.workspace.openTextDocument).not.toHaveBeenCalled();
