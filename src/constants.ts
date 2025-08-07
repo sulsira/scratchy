@@ -44,6 +44,7 @@ export const LANGUAGE_ID_MAP: LanguageMapping = {
 export const COMMANDS = {
   SHOW: 'scratchy.show',
   SHOW_MARKDOWN_PREVIEW: 'scratchy.showMarkdownPreview',
+  SHOW_JAVASCRIPT_PREVIEW: 'scratchy.showJavaScriptPreview',
 } as const;
 
 // Storage keys

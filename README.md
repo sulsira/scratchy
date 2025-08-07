@@ -169,6 +169,13 @@ if __name__ == "__main__":
 - **Manual Preview**: Use keyboard shortcut to open preview for any markdown file
 - **Real-time Updates**: Preview updates as you type
 
+### 🚀 JavaScript Preview
+
+- **Auto-Execution**: JavaScript files automatically execute when created
+- **Manual Execution**: Use keyboard shortcut to run any JavaScript file
+- **Output Panel**: See execution results in a dedicated output panel
+- **Error Handling**: View both stdout and stderr output
+
 ### 🎯 Smart File Management
 
 - **Organized Storage**: All scratch files are stored in `~/scratches/`
@@ -221,6 +228,12 @@ npm run compile
 - **Windows/Linux**: `Ctrl + Shift + V` (when markdown file is active)
 - Or use Command Palette → "Scratchy: Show Markdown Preview"
 
+#### JavaScript Execution
+
+- **Mac**: `Cmd + Shift + J` (when JavaScript file is active)
+- **Windows/Linux**: `Ctrl + Shift + J` (when JavaScript file is active)
+- Or use Command Palette → "Scratchy: Show JavaScript Preview"
+
 ## 📁 File Organization
 
 All scratch files are stored in your home directory:
@@ -236,15 +249,15 @@ All scratch files are stored in your home directory:
 
 ## 🎨 Supported File Types
 
-| Type           | Extensions | Features                            |
-| -------------- | ---------- | ----------------------------------- |
-| **Markdown**   | `.md`      | Auto-preview, rich templates        |
-| **JavaScript** | `.js`      | Console logging, function structure |
-| **TypeScript** | `.ts`      | Type safety, interfaces             |
-| **React JSX**  | `.jsx`     | React components, imports           |
-| **React TSX**  | `.tsx`     | TypeScript React, props interface   |
-| **Python**     | `.py`      | Main function, docstrings           |
-| **JSON**       | `.json`    | Structured data template            |
+| Type           | Extensions | Features                                   |
+| -------------- | ---------- | ------------------------------------------ |
+| **Markdown**   | `.md`      | Auto-preview, rich templates               |
+| **JavaScript** | `.js`      | Auto-execution, console logging, templates |
+| **TypeScript** | `.ts`      | Type safety, interfaces                    |
+| **React JSX**  | `.jsx`     | React components, imports                  |
+| **React TSX**  | `.tsx`     | TypeScript React, props interface          |
+| **Python**     | `.py`      | Main function, docstrings                  |
+| **JSON**       | `.json`    | Structured data template                   |
 
 ## ⚙️ Configuration
 

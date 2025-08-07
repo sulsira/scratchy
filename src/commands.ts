@@ -1,3 +1,5 @@
+import { exec } from 'child_process';
+import { promisify } from 'util';
 import * as vscode from 'vscode';
 import { COMMANDS, SUPPORTED_FILE_TYPES } from './constants';
 import {
@@ -6,6 +8,8 @@ import {
   openDocumentWithLanguage,
 } from './file-manager';
 import { getTemplateForExtension } from './templates';
+
+const execAsync = promisify(exec);
 
 /**
  * Register all extension commands
@@ -22,7 +26,17 @@ export function registerCommands(context: vscode.ExtensionContext): void {
     handleShowMarkdownPreview,
   );
 
-  context.subscriptions.push(showDisposable, previewDisposable);
+  // Register JavaScript preview command
+  const jsPreviewDisposable = vscode.commands.registerCommand(
+    COMMANDS.SHOW_JAVASCRIPT_PREVIEW,
+    handleShowJavaScriptPreview,
+  );
+
+  context.subscriptions.push(
+    showDisposable,
+    previewDisposable,
+    jsPreviewDisposable,
+  );
 }
 
 /**
@@ -76,6 +90,11 @@ async function handleCreateScratchFile(
       );
     }
 
+    // Auto-execute JavaScript files
+    if (fileExtension === '.js') {
+      await vscode.commands.executeCommand(COMMANDS.SHOW_JAVASCRIPT_PREVIEW);
+    }
+
     vscode.window.showInformationMessage(
       `Created scratch file: ${tempFile.fsPath}`,
     );
@@ -108,5 +127,83 @@ async function handleShowMarkdownPreview(): Promise<void> {
     await vscode.commands.executeCommand('markdown.showPreviewToSide', doc.uri);
   } catch (error) {
     vscode.window.showErrorMessage(`Failed to show markdown preview: ${error}`);
+  }
+}
+
+/**
+ * Handle the show JavaScript preview command
+ */
+async function handleShowJavaScriptPreview(): Promise<void> {
+  try {
+    const activeEditor = vscode.window.activeTextEditor;
+    if (!activeEditor) {
+      vscode.window.showInformationMessage('No active editor to preview.');
+      return;
+    }
+
+    const doc = activeEditor.document;
+
+    if (doc.languageId !== 'javascript') {
+      vscode.window.showInformationMessage(
+        'Active file is not a JavaScript file.',
+      );
+      return;
+    }
+
+    // Create output channel for JavaScript execution
+    const outputChannel =
+      vscode.window.createOutputChannel('JavaScript Preview');
+    outputChannel.show();
+
+    // Get the file path
+    const filePath = doc.uri.fsPath;
+
+    // Execute the JavaScript file using Node.js
+
+    outputChannel.appendLine(`🚀 Executing: ${filePath}`);
+    outputChannel.appendLine('─'.repeat(50));
+
+    try {
+      const { stdout, stderr } = await execAsync(`node "${filePath}"`);
+
+      if (stdout) {
+        outputChannel.appendLine('📤 Output:');
+        outputChannel.appendLine(stdout);
+      }
+
+      if (stderr) {
+        outputChannel.appendLine('⚠️  Errors:');
+        outputChannel.appendLine(stderr);
+      }
+
+      outputChannel.appendLine('─'.repeat(50));
+      outputChannel.appendLine('✅ Execution completed');
+    } catch (execError: unknown) {
+      outputChannel.appendLine('❌ Execution failed:');
+
+      if (execError instanceof Error) {
+        outputChannel.appendLine(execError.message);
+      } else {
+        outputChannel.appendLine(String(execError));
+      }
+
+      // Type guard for exec error with stdout/stderr
+      if (execError && typeof execError === 'object' && 'stdout' in execError) {
+        const error = execError as { stdout?: string; stderr?: string };
+        if (error.stdout) {
+          outputChannel.appendLine('📤 Output:');
+          outputChannel.appendLine(error.stdout);
+        }
+
+        if (error.stderr) {
+          outputChannel.appendLine('⚠️  Errors:');
+          outputChannel.appendLine(error.stderr);
+        }
+      }
+    }
+  } catch (error) {
+    vscode.window.showErrorMessage(
+      `Failed to show JavaScript preview: ${error}`,
+    );
   }
 }

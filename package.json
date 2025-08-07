@@ -57,6 +57,14 @@
         "win": "ctrl+shift+v",
         "linux": "ctrl+shift+v",
         "when": "editorTextFocus && editorLangId == markdown"
+      },
+      {
+        "command": "scratchy.showJavaScriptPreview",
+        "key": "cmd+shift+j",
+        "mac": "cmd+shift+j",
+        "win": "ctrl+shift+j",
+        "linux": "ctrl+shift+j",
+        "when": "editorTextFocus && editorLangId == javascript"
       }
     ],
     "commands": [
@@ -67,6 +75,10 @@
       {
         "command": "scratchy.showMarkdownPreview",
         "title": "Scratchy: Show Markdown Preview"
+      },
+      {
+        "command": "scratchy.showJavaScriptPreview",
+        "title": "Scratchy: Show JavaScript Preview"
       }
     ]
   },
