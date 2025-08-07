@@ -3,9 +3,12 @@ module.exports = {
     showQuickPick: jest.fn(),
     showTextDocument: jest.fn(),
     showInformationMessage: jest.fn(),
+    showErrorMessage: jest.fn(),
+    activeTextEditor: null,
   },
   commands: {
     registerCommand: jest.fn(),
+    executeCommand: jest.fn(),
   },
   workspace: {
     fs: {
