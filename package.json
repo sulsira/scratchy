@@ -2,7 +2,7 @@
   "name": "scratchy",
   "displayName": "Scratchy",
   "description": "Scratchy helps you quickly create and manage scratch files",
-  "version": "0.0.7",
+  "version": "1.0.0",
   "publisher": "sulsira",
   "icon": "media/scratchy.png",
   "homepage": "https://github.com/sulsira/scratchy#readme",
@@ -52,8 +52,8 @@
       },
       {
         "command": "scratchy.showMarkdownPreview",
-        "key": "cmd+shift+v",
-        "mac": "cmd+shift+v",
+        "key": "cmd+ctrl+v",
+        "mac": "cmd+ctrl+v",
         "win": "ctrl+shift+v",
         "linux": "ctrl+shift+v",
         "when": "editorTextFocus && editorLangId == markdown"
@@ -102,7 +102,7 @@
   "devDependencies": {
     "@types/jest": "^30.0.0",
     "@types/node": "20.x",
-    "@types/vscode": "^1.101.0",
+    "@types/vscode": ">=1.70.0",
     "@typescript-eslint/eslint-plugin": "^8.31.1",
     "@typescript-eslint/parser": "^8.31.1",
     "@vscode/test-electron": "^2.5.2",

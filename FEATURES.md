@@ -101,3 +101,26 @@
 - **🔍 Debug Support**: View both output and errors in one place
 - **🎯 Quick Testing**: Perfect for testing code snippets and functions
 - **📝 Development Workflow**: Seamless integration with scratch file workflow
+
+## ✅ **HTTP Scratch File Features Added**
+
+### **1. HTTP Method Autocompletion**
+- Registers a completion provider for `.http` files.
+- Offers standard HTTP methods (GET, POST, PUT, DELETE, PATCH, OPTIONS, HEAD) for quick insertion.
+
+### **2. Send HTTP Request Command**
+- Adds a `scratchy.sendHttpRequest` command.
+- Triggers REST Client’s request command if available.
+- Prompts the user to install REST Client if not found.
+
+### **3. Status Bar Integration**
+- Displays a "Send Request" button in the status bar.
+- Button only appears when a `.http` file is active, improving usability and context-awareness.
+
+### **4. Scratch File Creation Flow**
+- Handles file type selection and template insertion.
+- Detects language and opens the file with the correct mode.
+- Provides special handling for Markdown and JavaScript files.
+
+### **5. Error Handling**
+- Provides clear, user-friendly error messages throughout

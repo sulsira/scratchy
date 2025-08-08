@@ -13,6 +13,11 @@ export const SUPPORTED_FILE_TYPES: SupportedFileType[] = [
     fileExtensions: ['.json'],
   },
   {
+    label: 'HTTP',
+    fileExtensions: ['.http'],
+    description: 'HTTP files',
+  },
+  {
     label: 'JavaScript',
     description: 'JavaScript files',
     fileExtensions: ['.js', '.jsx'],
@@ -38,6 +43,7 @@ export const LANGUAGE_ID_MAP: LanguageMapping = {
   '.ts': 'typescript',
   '.tsx': 'typescriptreact',
   '.py': 'python',
+  '.http': 'http',
 };
 
 // Command IDs
