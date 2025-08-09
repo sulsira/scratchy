@@ -51,6 +51,9 @@ export const COMMANDS = {
   SHOW: 'scratchy.show',
   SHOW_MARKDOWN_PREVIEW: 'scratchy.showMarkdownPreview',
   SHOW_JAVASCRIPT_PREVIEW: 'scratchy.showJavaScriptPreview',
+  EXECUTE_HTTP_REQUEST: 'scratchy.executeHttpRequest',
+  EXECUTE_ALL_HTTP_REQUESTS: 'scratchy.executeAllHttpRequests',
+  EXECUTE_HTTP_REQUEST_AT_POSITION: 'scratchy.executeHttpRequestAtPosition',
 } as const;
 
 // Storage keys

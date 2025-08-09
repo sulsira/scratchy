@@ -31,6 +31,9 @@ export function getTemplateForExtension(extension: string): string {
   case '.py':
     return getPythonTemplate(templateData);
 
+  case '.http':
+    return getHttpTemplate(templateData);
+
   default:
     return getDefaultTemplate(templateData, extension);
   }
@@ -164,6 +167,36 @@ def main():
 
 if __name__ == "__main__":
     main()`;
+}
+
+function getHttpTemplate(data: TemplateData): string {
+  return `### Get Todo Item
+GET https://jsonplaceholder.typicode.com/todos/1
+Accept: application/json
+
+### Create New Todo
+POST https://jsonplaceholder.typicode.com/todos
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "title": "Sample todo item",
+  "completed": false
+}
+
+### Update Todo
+PUT https://jsonplaceholder.typicode.com/todos/1
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "title": "Updated todo item",
+  "completed": true
+}
+
+# Created on ${data.currentDate} at ${data.currentTime}
+# Use the play button above each request to execute it individually
+# Or use the toolbar buttons to run current/all requests`;
 }
 
 function getDefaultTemplate(data: TemplateData, extension: string): string {

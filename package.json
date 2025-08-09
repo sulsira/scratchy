@@ -2,7 +2,7 @@
   "name": "scratchy",
   "displayName": "Scratchy",
   "description": "Scratchy helps you quickly create and manage scratch files",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "publisher": "sulsira",
   "icon": "media/scratchy.png",
   "homepage": "https://github.com/sulsira/scratchy#readme",
@@ -37,11 +37,26 @@
   "engines": {
     "vscode": "^1.101.0"
   },
+  "extensionDependencies": [
+    "humao.rest-client"
+  ],
   "activationEvents": [
-    "onView:recentFilesPopup"
+    "onView:recentFilesPopup",
+    "onLanguage:http"
   ],
   "main": "./dist/extension.js",
   "contributes": {
+    "languages": [
+      {
+        "id": "http",
+        "extensions": [
+          ".http"
+        ],
+        "aliases": [
+          "HTTP"
+        ]
+      }
+    ],
     "keybindings": [
       {
         "command": "scratchy.show",
@@ -79,8 +94,49 @@
       {
         "command": "scratchy.showJavaScriptPreview",
         "title": "Scratchy: Show JavaScript Preview"
+      },
+      {
+        "command": "scratchy.executeHttpRequest",
+        "title": "Execute HTTP Request",
+        "category": "Scratchy",
+        "icon": "$(play)"
+      },
+      {
+        "command": "scratchy.executeAllHttpRequests",
+        "title": "Execute All HTTP Requests",
+        "category": "Scratchy",
+        "icon": "$(play-all)"
+      },
+      {
+        "command": "scratchy.executeHttpRequestAtPosition",
+        "title": "Execute HTTP Request at Position",
+        "category": "Scratchy"
       }
-    ]
+    ],
+    "menus": {
+      "editor/title": [
+        {
+          "when": "resourceLangId == http",
+          "command": "scratchy.executeHttpRequest",
+          "group": "navigation@1"
+        },
+        {
+          "when": "resourceLangId == http",
+          "command": "scratchy.executeAllHttpRequests",
+          "group": "navigation@2"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "scratchy.executeHttpRequest",
+          "when": "resourceLangId == http"
+        },
+        {
+          "command": "scratchy.executeAllHttpRequests",
+          "when": "resourceLangId == http"
+        }
+      ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run package",
@@ -115,5 +171,8 @@
     "prettier": "^3.2.5",
     "ts-jest": "^29.4.0",
     "typescript": "^5.8.3"
-  }
+  },
+  "extensionDependencies": [
+    "humao.rest-client"
+  ]
 }

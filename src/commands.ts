@@ -7,6 +7,7 @@ import {
   getLanguageIdForExtension,
   openDocumentWithLanguage,
 } from './file-manager';
+import { HttpCodeLensProvider } from './http-codelens';
 import { getTemplateForExtension } from './templates';
 
 const execAsync = promisify(exec);
@@ -32,10 +33,41 @@ export function registerCommands(context: vscode.ExtensionContext): void {
     handleShowJavaScriptPreview,
   );
 
+  // Register HTTP request execution commands
+  const httpRequestDisposable = vscode.commands.registerCommand(
+    COMMANDS.EXECUTE_HTTP_REQUEST,
+    executeHttpRequest,
+  );
+
+  const executeAllHttpRequestsDisposable = vscode.commands.registerCommand(
+    COMMANDS.EXECUTE_ALL_HTTP_REQUESTS,
+    executeAllHttpRequests,
+  );
+
+  // Register HTTP CodeLens provider
+  const httpCodeLensProvider = vscode.languages.registerCodeLensProvider(
+    { language: 'http' },
+    new HttpCodeLensProvider(),
+  );
+
+  // Register execute at position command
+  const executeAtPositionDisposable = vscode.commands.registerCommand(
+    COMMANDS.EXECUTE_HTTP_REQUEST_AT_POSITION,
+    async (uri: vscode.Uri, position: vscode.Position) => {
+      const editor = await vscode.window.showTextDocument(uri);
+      editor.selection = new vscode.Selection(position, position);
+      return executeHttpRequest();
+    },
+  );
+
   context.subscriptions.push(
     showDisposable,
     previewDisposable,
     jsPreviewDisposable,
+    httpRequestDisposable,
+    executeAllHttpRequestsDisposable,
+    httpCodeLensProvider,
+    executeAtPositionDisposable,
   );
 }
 
@@ -205,5 +237,115 @@ async function handleShowJavaScriptPreview(): Promise<void> {
     vscode.window.showErrorMessage(
       `Failed to show JavaScript preview: ${error}`,
     );
+  }
+}
+
+/**
+ * Execute HTTP request at cursor position
+ */
+async function executeHttpRequest(): Promise<void> {
+  const editor = vscode.window.activeTextEditor;
+  if (!editor || editor.document.languageId !== 'http') {
+    vscode.window.showErrorMessage('Please open a .http file first');
+    return;
+  }
+
+  try {
+    // Check if REST Client is installed
+    const restClient = vscode.extensions.getExtension('humao.rest-client');
+    if (!restClient) {
+      const install = 'Install REST Client';
+      const result = await vscode.window.showErrorMessage(
+        'REST Client extension is required to execute HTTP requests.',
+        install,
+      );
+      if (result === install) {
+        await vscode.commands.executeCommand(
+          'workbench.extensions.installExtension',
+          'humao.rest-client',
+        );
+      }
+      return;
+    }
+
+    // Execute the request using REST Client
+    await vscode.commands.executeCommand('rest-client.request');
+  } catch (error) {
+    vscode.window.showErrorMessage(`Failed to execute HTTP request: ${error}`);
+  }
+}
+
+/**
+ * Execute all HTTP requests in the current file
+ */
+async function executeAllHttpRequests(): Promise<void> {
+  const editor = vscode.window.activeTextEditor;
+  if (!editor || editor.document.languageId !== 'http') {
+    vscode.window.showErrorMessage('Please open a .http file first');
+    return;
+  }
+
+  try {
+    // Check if REST Client is installed
+    const restClient = vscode.extensions.getExtension('humao.rest-client');
+    if (!restClient) {
+      const install = 'Install REST Client';
+      const result = await vscode.window.showErrorMessage(
+        'REST Client extension is required to execute HTTP requests.',
+        install,
+      );
+      if (result === install) {
+        await vscode.commands.executeCommand(
+          'workbench.extensions.installExtension',
+          'humao.rest-client',
+        );
+      }
+      return;
+    }
+
+    // Get all request positions
+    const text = editor.document.getText();
+    const requests = text.split(/####+\r?\n/);
+
+    // Show progress indicator
+    await vscode.window.withProgress(
+      {
+        location: vscode.ProgressLocation.Notification,
+        title: 'Executing HTTP Requests',
+        cancellable: true,
+      },
+      async (progress, token) => {
+        let completed = 0;
+        const total = requests.length;
+
+        // Execute each request
+        for (const request of requests) {
+          if (token.isCancellationRequested) {
+            break;
+          }
+
+          if (request.trim()) {
+            // Update progress
+            progress.report({
+              message: `Executing request ${completed + 1}/${total}`,
+              increment: (1 / total) * 100,
+            });
+
+            // Position the cursor at the start of this request
+            const position = editor.document.positionAt(text.indexOf(request));
+            editor.selection = new vscode.Selection(position, position);
+
+            // Execute the request
+            await vscode.commands.executeCommand('rest-client.request');
+            completed++;
+
+            // Add a small delay between requests
+            await new Promise((resolve) => setTimeout(resolve, 500));
+          }
+        }
+      },
+    );
+  } catch (error) {
+    vscode.window.showErrorMessage(`Failed to execute HTTP requests: ${error}`);
   }
 }
